@@ -1,5 +1,4 @@
 'use strict';
-const faker = require("faker");
 const bcrypt = require("bcryptjs");
 
 let personas = ['mom','dad','son','daughter'];
