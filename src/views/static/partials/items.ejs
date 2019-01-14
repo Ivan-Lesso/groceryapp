@@ -107,7 +107,7 @@
             .done((data) => {
               wrapper.innerHTML = "Successfully Added!";
               $(wrapper).fadeOut("slow");
-              socket.emit('list updated', 'Item' + title + ' was added');
+              socket.emit('list updated', title + ' was added');
             });
         }
       });
