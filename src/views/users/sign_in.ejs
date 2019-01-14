@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <!-- Navigation -->
+    <% include ../static/partials/navbar.ejs %>
+    <main class="container main-container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1>Sign in</h1>
+
+      <form action="/users/sign_in" method="post">
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+          <small class="text-muted" id="emailHelp">email address must be a valid address</small>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
+          <small class="text-muted" id="passwordHelp">password must match confirmation below</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </form>
+      <br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Persona</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mom</td>
+            <td>mom@gmail.com</td>
+            <td>mompassword</td>
+          </tr>
+          <tr>
+            <td>Dad</td>
+            <td>dad@gmail.com</td>
+            <td>dadpassword</td>
+          </tr>
+          <tr>
+            <td>Son</td>
+            <td>son@gmail.com</td>
+            <td>sonpassword</td>
+          </tr>
+          <tr>
+            <td>Daughter</td>
+            <td>daughter@gmail.com</td>
+            <td>daughterpassword</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

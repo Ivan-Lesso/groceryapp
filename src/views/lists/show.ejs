@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="jumbotron container main-container">
+      <h1><%= list.title %></h1>
+      <a href="/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>
+       <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
+         <button type="submit" class="btn btn-danger">Delete</button>
+       </form>
+      <hr>
+
+      <h1>Items</h1>
+      <div id="notification" style="display: none">
+      </div>
+      <ul class="list-group" id="items">
+      </ul>
+      <div id='addItemForm'>
+      </div>
+      <div id='addItemLink' class='mt-3'><a href='#' id='addLink'>Add New Item</a></div>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+    <% include ../static/partials/items.ejs %>
+  </body>
+</html>

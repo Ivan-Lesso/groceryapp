@@ -1,0 +1,133 @@
+<script>
+  $(function() {
+    let socket = io();
+    let updateItems = (listId) => {
+      $.get("/lists/<%= list.id %>/items")
+        .done((data) => {
+          $('#items').html("");
+          data.forEach((item) => {
+            let newItem = document.createElement("li");
+            newItem.className = "list-group-item";
+            newItem.id = item.id;
+            newItem.title = item.title;
+            let title = item.purchased?"<strike>"+item.title+"</strike>":item.title;
+            newItem.innerHTML = "<input type='checkbox' class='purchase' "+(item.purchased?"checked":"")+"> <a href='/lists/" + item.listId + "/items/"+ item.id +"''>" + title + "</a> <a href='#' class='edit'><i class='far fa-edit'></i></a> <a href='#' class='trash'><i class='fas fa-trash'></a></i>";
+            $('#items').append(newItem);
+          })
+          $('.purchase').change(function(e) {
+            let id = $(e.target).closest('li').attr("id");
+            let item = $(e.target).closest('li').attr("title");
+            $.post("/lists/<%= list.id %>/items/" + id + "/update", { id: id, title: item, purchased: this.checked })
+              .done((data) => {
+                socket.emit('list updated', 'Item '+ item + ' was '+(this.checked?'purchased':'unpurchased'));
+              });
+          });
+          $(".trash").on("click", function(e) {
+            e.preventDefault();
+            let id = $(e.target).closest('li').attr("id");
+            let title = $(e.target).closest('li').children("a").first().html();
+            $.post("/lists/<%= list.id %>/items/"+id+"/destroy", (data) => {
+              $(e.target).closest('li').fadeOut();
+              socket.emit('list updated', 'Item' + title +' was deleted');
+            });
+          });
+          $(".edit").on("click", function(e) {
+            e.preventDefault();
+            let id = $(e.target).closest('li').attr("id");
+            let title = $(e.target).closest("a").prev().html();
+            let wrapper = document.createElement("div");
+            let formInput = document.createElement("input");
+            formInput.type = "text";
+            formInput.value = title;
+            formInput.name = "title[]";
+
+            let formButton = document.createElement("button");
+            formButton.type = "submit";
+            formButton.className = "btn btn-primary ml-1";
+            formButton.innerHTML = "Update";
+
+            let closeLink = document.createElement("a");
+            closeLink.href="#";
+            closeLink.innerHTML = "Close";
+
+            wrapper.append(formInput,formButton,closeLink);
+            $(e.target).closest('li').append(wrapper);
+            formInput.focus();
+            $(formButton).click(function(e) {
+              if(formInput.value.length<2) {
+                alert("Too short!");
+              } else {
+                $.post("/lists/<%= list.id %>/items/" + id + "/update", { id: id, title: formInput.value })
+                  .done((data) => {
+                    socket.emit('list updated', 'Item '+ formInput.value + ' was updated');
+                  });
+              }
+            });
+            $(closeLink).on("click", (e) => {
+              e.preventDefault();
+              $(e.target).closest('li').show();
+              $(wrapper).remove();
+            });
+          });
+        });
+    };
+    let appendNewTodo = (element) => {
+      let wrapper = document.createElement("div");
+      let currentLength = $("#addItemForm").children().length;
+      let divId = "itemInLineForm"+(currentLength+1)
+      wrapper.className = "mt-1";
+      wrapper.id = divId;
+      let content = "What's the item? ";
+
+      let formInput = document.createElement("input");
+      formInput.type = "text";
+      formInput.name = "title[]";
+      formInput.id = divId+"-input";
+
+      let formButton = document.createElement("button");
+      formButton.type = "submit";
+      formButton.className = "btn btn-primary ml-1";
+      formButton.innerHTML = "Add";
+
+      let closeLink = document.createElement("a");
+      closeLink.href="#";
+      closeLink.innerHTML = "Remove";
+
+      wrapper.append(content, formInput, formButton, closeLink);
+      element.append(wrapper);
+      formInput.focus();
+      $(formButton).on("click", (e) => {
+        e.preventDefault();
+        let title = $("#"+divId+"-input").val();
+        if(title.length<2) {
+          alert("Too short!")
+        }
+        else {
+          $.post("/lists/<%= list.id %>/items/create", { title: title, purchased: false })
+            .done((data) => {
+              wrapper.innerHTML = "Successfully Added!";
+              $(wrapper).fadeOut("slow");
+              socket.emit('list updated', 'Item' + $("#"+divId+"-input").val() + ' was added');
+            });
+        }
+      });
+      $(closeLink).on("click", (e) => {
+        e.preventDefault();
+        $(wrapper).remove();
+      });
+    }
+
+    updateItems(<%= list.id %>);
+    socket.on('list updated', function(msg) {
+      updateItems(<%= list.id %>);
+      $("#notification").fadeIn("slow").append(msg+"<br/>");
+      setTimeout(() =>{
+        $("#notification").fadeOut("slow");
+        $("#notification").html("");
+      }, 3000);
+    });
+    $("#addLink").click(() => {
+      appendNewTodo($("#addItemForm"));
+    });
+  });
+</script>

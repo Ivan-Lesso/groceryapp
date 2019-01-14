@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <main class="container">
+      <% include ../static/partials/navbar.ejs %>
+
+      <h1>Lists</h1>
+      <% include ../static/partials/messages.ejs %>
+      <% if(currentUser) { %>
+        <br />
+        <a href="/lists/new" class="btn btn-success">New Grocery List</a>
+      <% } %>
+      <ul class="list-group">
+<!-- #1 -->
+        <% lists.forEach((list) => { %>
+<!-- #2 -->
+          <li class="list-group-item">
+            <a href="/lists/<%= list.id %>"> <%= list.title %> </a>
+          </li>
+        <% }) %>
+      </ul>
+
+    </main>
+  </body>
+</html>

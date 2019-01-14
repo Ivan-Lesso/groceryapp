@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="jumbotron container main-container">
+      <% include ../static/partials/messages.ejs %>
+      <h1>New List</h1>
+
+      <form action="/lists/create" method="post">
+        <div class="form-group">
+          <label for="title">List title</label>
+          <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
+          <small class="text-muted" id="titleHelp">title must be 5 or more characters in length.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

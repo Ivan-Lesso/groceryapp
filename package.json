@@ -1,0 +1,47 @@
+{
+  "name": "groceryapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine",
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ivan-Lesso/groceryapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ivan-Lesso/groceryapp/issues"
+  },
+  "author": "Ivan Zalessov",
+  "license": "ISC",
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jasmine": "^3.0.0",
+    "request": "^2.83.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "can-ndjson-stream": "^1.0.0",
+    "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "ejs-stream": "^1.0.0",
+    "express": "^4.16.4",
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.6",
+    "express-stream": "^0.8.0",
+    "express-validator": "^5.3.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
+    "noty": "^3.2.0-beta",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.7.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "socket.io": "^2.2.0"
+  }
+}
